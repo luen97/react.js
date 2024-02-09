@@ -1,9 +1,11 @@
-function TodoCounter({ total, completed }) {
-    return (
-     <h1>
-        Has completado {completed} de {total} ToDos
-     </h1>
-    );
-  }
+import './TodoCounter.css';
 
-  export { TodoCounter };
+function TodoCounter({ total, completed }) {
+  return (
+    <h1 className="TodoCounter">
+      Has completado <span>{completed}</span> de <span>{total}</span> TODOs
+    </h1>
+  );
+}
+
+export { TodoCounter };
