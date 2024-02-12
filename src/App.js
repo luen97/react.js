@@ -12,21 +12,53 @@ const defaultTodos = [
   { text: 'comer arroz', completed: false},
   { text: 'Revisar el baño', completed: false},
   { text: 'Dañar un chorizo', completed: false},
+  { text: 'bleluyá', completed: false},
 ];
 
-{defaultTodos.map(todo =>(
-  <TodoItem />
-))}
-
 function App() {
+  // States
+  const [todos, setTodos] = React.useState(defaultTodos);
+  const [searchValue, setSearchValue] = React.useState('');
+
+  // Derivated states
+
+  // Inside the filter is an arrow function
+  // that recives todo and returned a todo.completed
+  // with !! (double negation) we transform True to 1
+  const completedTodos = todos.filter(
+    todo => !!todo.completed
+  ).length;
+  const totalTodos = todos.length
+
+  const searchedTodos = todos.filter(
+    (todo) => {
+      // función texto sin tildes
+      const noTildes = (text) => {
+        return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      };
+
+      const todoText = noTildes(todo.text.toLowerCase());
+      const searchText = noTildes(searchValue.toLowerCase());
+      return todoText.includes(searchText);
+    }
+  )
+
+  console.log('Lo que están escribiendo: ' + searchValue);
+
   return (
     <>
       
-      <TodoCounter completed={20} total={21} />
-      <TodoSearch />
+      <TodoCounter
+        completed={completedTodos} 
+        total={totalTodos } 
+      />
+      <TodoSearch 
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
 
       <TodoList>
-        {defaultTodos.map(todo =>(
+        {searchedTodos.map(todo =>(
           <TodoItem 
           key={todo.text} 
           text={todo.text}
