@@ -17,8 +17,21 @@ const defaultTodos = [
 
 
 function App() {
+
+  // Local storage
+  const localStorageTodos = localStorage.getItem('TODOS_V1');
+  
+  let parsedTodos;
+  
+  if (!localStorageTodos) {
+    localStorage.setItem('TODOS_V1',JSON.stringify([]));
+    parsedTodos = [];
+  } else {
+    parsedTodos = JSON.parse(localStorageTodos);
+  }
+
   // States
-  const [todos, setTodos] = React.useState(defaultTodos);
+  const [todos, setTodos] = React.useState(parsedTodos);
   const [searchValue, setSearchValue] = React.useState('');
 
   // Derivated states
@@ -44,13 +57,18 @@ function App() {
     }
   )
 
+  const saveTodos = (newTodos) => {
+    localStorage.setItem('TODOS_V1', JSON.stringify(newTodos));
+    setTodos(newTodos);
+  }
+
   const completeTodo = (text) => {
     const newTodos =[...todos];
     const todoIndex = newTodos.findIndex(
       (todo) => todo.text == text
     );
     newTodos[todoIndex].completed = true;
-    setTodos(newTodos)
+    saveTodos(newTodos);
   }
 
   const deleteTodo = (text) => {
@@ -59,7 +77,7 @@ function App() {
       (todo) => todo.text == text
     );
     newTodos.splice(todoIndex,1);
-    setTodos(newTodos)
+    saveTodos(newTodos);
   }
 
   console.log('Lo que están escribiendo: ' + searchValue);
