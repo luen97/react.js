@@ -15,6 +15,7 @@ const defaultTodos = [
   { text: 'bleluyá', completed: false},
 ];
 
+
 function App() {
   // States
   const [todos, setTodos] = React.useState(defaultTodos);
@@ -81,10 +82,10 @@ function App() {
           key={todo.text} 
           text={todo.text}
           completed={todo.completed}
-          onCompleted={ () => {
+          onComplete={ () => {
             completeTodo(todo.text)
           }}
-          onDeleted={ () => {
+          onDelete={ () => {
             deleteTodo(todo.text)
           }}
           />
