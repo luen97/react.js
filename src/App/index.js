@@ -4,18 +4,26 @@ import React from 'react';
 
 import './App.css';
 
-// const defaultTodos = [
-//   { text: 'Cortar cebolla', completed: true},
-//   { text: 'comer arroz', completed: false},
-//   { text: 'Revisar el baño', completed: false},
-//   { text: 'Dañar un chorizo', completed: false},
-//   { text: 'bleluyá', completed: false},
-// ];
+const defaultTodos = [
+  { text: 'Cortar cebolla', completed: true},
+  { text: 'comer arroz', completed: false},
+  { text: 'Revisar el baño', completed: false},
+  { text: 'Dañar un chorizo', completed: false},
+  { text: 'bleluyá', completed: false},
+];
+
+localStorage.setItem('TODOS_V1', JSON.stringify(defaultTodos))
 
 function App() {
 
+  const {
+    item: todos, 
+    saveItem: saveTodos,
+    loading,
+    error,
+  } = useLocalStorage('TODOS_V1',[]);
+
   // States
-  const [todos, saveTodos] = useLocalStorage('TODOS_V1',[]);
   const [searchValue, setSearchValue] = React.useState('');
 
   // Derivated states
@@ -61,7 +69,9 @@ function App() {
 
 
   return (
-    <AppUI 
+    <AppUI
+    loading={loading}
+    error={error} 
     completedTodos={completedTodos}
     totalTodos={totalTodos}
     searchValue={searchValue}
